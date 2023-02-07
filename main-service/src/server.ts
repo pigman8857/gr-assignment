@@ -8,6 +8,6 @@ import getHttpClient from "./api/adapters/http-client";
 console.log("Start server...");
 const configInstance = config();
 const server = fastify({ logger: true });
-server.decorate("httpClient", getHttpClient());
+server.decorate("httpClient", getHttpClient(configInstance));
 index(server, handlers())();
 createServer(server, configInstance)();

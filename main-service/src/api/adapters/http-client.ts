@@ -1,13 +1,13 @@
 import axios from "axios";
-import { SendEventResult, HttpClient } from "../../types";
+import { SendEventResult, HttpClient, ConfigInstance } from "../../types";
 
-const getHttpClient = (): HttpClient => {
+const getHttpClient = (configInstance: ConfigInstance): HttpClient => {
   return {
-    sendEvent: async (): Promise<SendEventResult> => {
+    sendEvent: async (eventName: string): Promise<SendEventResult> => {
       const result = await axios.post(
-        "http://event-bus-scan-service:4010/events",
+        `${configInstance.eventBusServiceHost}:${configInstance.port}/events`,
         {
-          eventName: "scanRequested1",
+          eventName,
         }
       );
       return {
