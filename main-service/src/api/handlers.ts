@@ -13,14 +13,12 @@ const healthCheckHandler = (fastify: FastifyInstance) => {
 const readScanHandler = (fastify: FastifyInstance) => {
   return async (request: FastifyRequest, reply: FastifyReply) => {
     console.log("readScanHandler.");
-    //const { id } =  request.params as { id : number;}
 
-    try{
-    //   console.log("id > ",  id);
+    try {
       reply.status(200);
-      reply.send(`this is read scan`);
-    }catch(error){
-      console.log('error >',error);
+      reply.send({ status: "event created" });
+    } catch (error) {
+      console.log("error >", error);
       reply.status(500);
       reply.send(error);
     }
@@ -28,9 +26,29 @@ const readScanHandler = (fastify: FastifyInstance) => {
   };
 };
 
-export default function handlers () : Handlers {
-    return {
-        healthCheckHandler,
-        readScanHandler,
+const requestScanHandler = (fastify: FastifyInstance) => {
+  return async (request: FastifyRequest, reply: FastifyReply) => {
+    console.log("requestScanHandler.");
+
+    const { httpClient } = fastify;
+    try {
+      const result = await httpClient.sendEvent();
+      console.log("httpClient.sendEvent() result", result);
+      reply.status(201);
+      reply.send({ status: "event created" });
+    } catch (error) {
+      console.log("error >", error);
+      reply.status(500);
+      reply.send(error);
     }
+    return;
+  };
 };
+
+export default function handlers(): Handlers {
+  return {
+    healthCheckHandler,
+    readScanHandler,
+    requestScanHandler,
+  };
+}

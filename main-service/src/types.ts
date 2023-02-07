@@ -1,4 +1,11 @@
 import { FastifyRequest, FastifyReply, FastifyInstance } from "fastify";
+//import { knex, Knex } from "knex";
+declare module "fastify" {
+  interface FastifyInstance {
+    //db: Knex;
+    httpClient: HttpClient;
+  }
+}
 
 export interface ConfigInstance {
   env: string;
@@ -20,4 +27,14 @@ type HandlerCallback = (
 export interface Handlers {
   healthCheckHandler: HandlerCallback;
   readScanHandler: HandlerCallback;
+  requestScanHandler: HandlerCallback;
+}
+
+export interface SendEventResult {
+  status: number;
+  data: { status: "string" };
+}
+
+export interface HttpClient {
+  sendEvent: () => Promise<SendEventResult>;
 }
