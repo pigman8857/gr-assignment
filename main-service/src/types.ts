@@ -10,6 +10,8 @@ declare module "fastify" {
 export interface ConfigInstance {
   env: string;
   port: number;
+  eventBusServiceHost: string;
+  eventBusServicePort: string;
 }
 
 export interface Properties {

@@ -3,6 +3,8 @@ import { FastifyRequest, FastifyReply, FastifyInstance } from "fastify";
 export interface ConfigInstance {
   env: string;
   port: number;
+  mainServiceHost: string;
+  mainServicePort: string;
 }
 
 export interface Properties {
