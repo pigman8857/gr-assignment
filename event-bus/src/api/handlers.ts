@@ -13,13 +13,13 @@ const healthCheckHandler = (fastify: FastifyInstance) => {
 const postEventHandler = (fastify: FastifyInstance) => {
   return async (request: FastifyRequest, reply: FastifyReply) => {
     console.log("postEventHandler.");
-    console.log('body>',request.body);
+    console.log("body>", request.body);
 
-    try{
+    try {
       reply.status(201);
-      reply.send({ status : "event created"});
-    }catch(error){
-      console.log('error >',error);
+      reply.send({ status: "event created" });
+    } catch (error) {
+      console.log("error >", error);
       reply.status(500);
       reply.send(error);
     }
@@ -27,9 +27,9 @@ const postEventHandler = (fastify: FastifyInstance) => {
   };
 };
 
-export default function handlers () : Handlers {
-    return {
-        healthCheckHandler,
-        postEventHandler,
-    }
-};
+export default function handlers(): Handlers {
+  return {
+    healthCheckHandler,
+    postEventHandler,
+  };
+}

@@ -5,12 +5,9 @@ const { fn } = jest;
 describe("Test handlers", () => {
   const { postEventHandler, healthCheckHandler } = handlers();
 
-
   describe("Test postEventHandler", () => {
     //@ts-ignore
-    const instance: FastifyInstance = {
-
-    }
+    const instance: FastifyInstance = {};
 
     //@ts-ignore
     const req: FastifyRequest = {
@@ -24,16 +21,15 @@ describe("Test handlers", () => {
       send: fn(),
     };
     it("test if successfully call", async () => {
-      await expect(postEventHandler(instance)(req, res)).resolves.toBeUndefined();
+      await expect(
+        postEventHandler(instance)(req, res)
+      ).resolves.toBeUndefined();
     });
   });
 
   describe("Test healthCheckHandler", () => {
-
     //@ts-ignore
-    const instance: FastifyInstance = {
-
-    }
+    const instance: FastifyInstance = {};
 
     //@ts-ignore
     const req: FastifyRequest = {
@@ -47,7 +43,9 @@ describe("Test handlers", () => {
       send: fn(),
     };
     it("test if successfully call", async () => {
-      await expect(healthCheckHandler(instance)(req, res)).resolves.toBeUndefined();
+      await expect(
+        healthCheckHandler(instance)(req, res)
+      ).resolves.toBeUndefined();
     });
   });
 });
