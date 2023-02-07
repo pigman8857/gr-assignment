@@ -1,0 +1,54 @@
+version: "3.8"
+
+services:
+  scan-main-service:
+    container_name: scan-main-service
+    image: scan-main-service:latest
+    build:
+      context: ./main-service
+      dockerfile: dockerfile
+    command: npm run start-dev
+    volumes:
+      - ./main-service/src:/app/src
+      - scan-main-service-node-modules:/app/node_modules
+    ports:
+      - 4000:4000
+    networks:
+      - scanner-net
+  event-bus-scan-service:
+    container_name: event-bus-scan-service
+    image: event-bus-scan-service:latest
+    build:
+      context: ./event-bus
+      dockerfile: dockerfile
+    command: npm run start-dev
+    volumes:
+      - ./event-bus/src:/app/src
+      - event-bus-scan-service-node-modules:/app/node_modules
+    ports:
+      - 4010:4010
+    networks:
+      - scanner-net 
+  # advertiser-service-poc-db:
+  #   container_name: advertiser-service-poc-db
+  #   image: postgres:12.4
+  #   restart: always
+  #   networks:
+  #     - test-ads-microservices 
+  #   environment: 
+  #     POSTGRES_PASSWORD: 12345676
+  #     POSTGRES_USER: ads_api_user
+  #     POSTGRES_DB: advertisers_api
+  #   ports:
+  #     - 5450:5432
+  #   volumes:
+  #     - mydbdata:/var/lib/postgresql/data
+    
+volumes:
+  # mydbdata:
+  scan-main-service-node-modules:
+  event-bus-scan-service-node-modules:
+
+networks:
+  scanner-net: 
+     driver: bridge

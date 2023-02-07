@@ -6,7 +6,7 @@
   "scripts": {
     "test": "NODE_ENV=unittest jest --colors --detectOpenHandles",
     "start-dev": "ts-node src/server.ts",
-    "image-build": "docker build -t advertiser-service-poc:test ."
+    "image-build": "docker build -t event-bus-scan-service:latest ."
   },
   "keywords": [],
   "author": "",
