@@ -1,14 +1,12 @@
 import { FastifyRequest, FastifyReply, FastifyInstance } from "fastify";
-import handlers from "../handler";
+import handlers from "../handlers";
 const { fn } = jest;
 
 describe("Test handlers", () => {
-  const { getAdvertiserHandler, healthCheckHandler } = handlers();
+  const { readScanHandler, healthCheckHandler } = handlers();
 
 
-
-
-  describe("Test getAdvertiserHandler", () => {
+  describe("Test readScanHandler", () => {
     //@ts-ignore
     const instance: FastifyInstance = {
 
@@ -16,9 +14,9 @@ describe("Test handlers", () => {
 
     //@ts-ignore
     const req: FastifyRequest = {
-      params: {
-        id: 1,
-      },
+    //   params: {
+    //     id: 1,
+    //   },
     };
     //@ts-ignore
     const res: FastifyReply = {
@@ -26,7 +24,7 @@ describe("Test handlers", () => {
       send: fn(),
     };
     it("test if successfully call", async () => {
-      await expect(getAdvertiserHandler(instance)(req, res)).resolves.toBeUndefined();
+      await expect(readScanHandler(instance)(req, res)).resolves.toBeUndefined();
     });
   });
 

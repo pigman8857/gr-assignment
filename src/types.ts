@@ -19,5 +19,5 @@ type HandlerCallback = (
 
 export interface Handlers {
   healthCheckHandler: HandlerCallback;
-  getAdvertiserHandler: HandlerCallback;
+  readScanHandler: HandlerCallback;
 }

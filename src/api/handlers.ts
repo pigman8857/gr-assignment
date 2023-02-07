@@ -10,15 +10,15 @@ const healthCheckHandler = (fastify: FastifyInstance) => {
   };
 };
 
-const getAdvertiserHandler = (fastify: FastifyInstance) => {
+const readScanHandler = (fastify: FastifyInstance) => {
   return async (request: FastifyRequest, reply: FastifyReply) => {
-    console.log("getAdvertiserHandler.");
-    const { id } =  request.params as { id : number;}
+    console.log("readScanHandler.");
+    //const { id } =  request.params as { id : number;}
 
     try{
-      console.log("id > ",  id);
+    //   console.log("id > ",  id);
       reply.status(200);
-      reply.send(`this is advertiser ${ id}`);
+      reply.send(`this is read scan`);
     }catch(error){
       console.log('error >',error);
       reply.status(500);
@@ -31,6 +31,6 @@ const getAdvertiserHandler = (fastify: FastifyInstance) => {
 export default function handlers () : Handlers {
     return {
         healthCheckHandler,
-        getAdvertiserHandler,
+        readScanHandler,
     }
 };

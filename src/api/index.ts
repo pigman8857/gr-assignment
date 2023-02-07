@@ -12,21 +12,29 @@ const index = (fastifyInstance: FastifyInstance, handlers: Handlers) => {
     };
 
     const getAdvertiserSchema: FastifySchema = {
-      params: getAdvertiserParamsProp,
+    //   params: getAdvertiserParamsProp,
     };
 
-    const getAdvertiserHandler = handlers.getAdvertiserHandler(fastifyInstance);
+    const readScanHandler = handlers.readScanHandler(fastifyInstance);
     const healthCheckHandler = handlers.healthCheckHandler(fastifyInstance);
 
     fastifyInstance.get("/health", healthCheckHandler);
 
     fastifyInstance.get(
-      "/advertisers/:id",
+      "/scan",
       {
         schema: getAdvertiserSchema,
       },
-      getAdvertiserHandler
+      readScanHandler
     );
+
+    // fastifyInstance.post(
+    //     "/scan",
+    //     {
+    //       schema: getAdvertiserSchema,
+    //     },
+    //     getAdvertiserHandler
+    // );
   };
 };
 
