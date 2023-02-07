@@ -32,10 +32,10 @@ const requestScanHandler = (fastify: FastifyInstance) => {
 
     const { httpClient } = fastify;
     try {
-      const result = await httpClient.sendEvent();
+      const result = await httpClient.sendEvent('scanRequested')
       console.log("httpClient.sendEvent() result", result);
       reply.status(201);
-      reply.send({ status: "event created" });
+      reply.send({ status: "scan created" });
     } catch (error) {
       console.log("error >", error);
       reply.status(500);

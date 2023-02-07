@@ -28,7 +28,7 @@ const index = (fastifyInstance: FastifyInstance, handlers: Handlers) => {
         201: {
           type: "object",
           properties: {
-            startus: { type: "string" },
+            status: { type: "string" },
           },
         },
       },
