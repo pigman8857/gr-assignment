@@ -66,9 +66,6 @@ describe("Test handlers", () => {
 
     //@ts-ignore
     const req: FastifyRequest = {
-      params: {
-        id: 1,
-      },
     };
     //@ts-ignore
     const res: FastifyReply = {
