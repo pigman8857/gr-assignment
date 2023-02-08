@@ -17,7 +17,7 @@ const postEventHandler = (fastify: FastifyInstance) => {
     const { data, eventName } = request.body as { eventName: string, data: any };
     const { httpClient } = fastify;
     try {
-      const result = await httpClient.sendEvent(eventName,ServicesName.MAIN);
+      const result = await httpClient.sendEvent(ServicesName.MAIN,{ data , eventName});
       console.log('result >',result);
       reply.status(201);
       reply.send({ status: "event created" });

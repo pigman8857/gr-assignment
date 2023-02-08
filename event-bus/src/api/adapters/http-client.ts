@@ -9,14 +9,12 @@ import {
 const getHttpClient = (configInstance: ConfigInstance): HttpClient => {
   return {
     sendEvent: async (
-      eventName: string,
-      serviceName: ServicesName
+      serviceName: ServicesName,
+      data: any
     ): Promise<SendEventResult | null> => {
       const result = await axios.post(
         `${configInstance.services[serviceName].host}:${configInstance.services[serviceName].port}/events`,
-        {
-          eventName,
-        }
+        data
       );
       return {
         status: result.status,

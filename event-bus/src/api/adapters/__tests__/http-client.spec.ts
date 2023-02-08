@@ -21,6 +21,13 @@ describe("httpClient test", () => {
     data: {},
   };
 
+  const dataToSend = {
+    eventName: "fakeEventName",
+    data: {
+      someKey: "someData",
+    },
+  };
+
   beforeAll(() => {
     mockedAxios.post.mockResolvedValueOnce(expectedResult);
   });
@@ -28,14 +35,12 @@ describe("httpClient test", () => {
   afterAll(() => {});
 
   test("Test sendEvent()", async () => {
-    expect(
-      httpClient.sendEvent("fakeEventName", ServicesName.MAIN)
-    ).resolves.toEqual(expectedResult);
+    expect(httpClient.sendEvent(ServicesName.MAIN,dataToSend)).resolves.toEqual(
+      expectedResult
+    );
     expect(mockedAxios.post).toBeCalledWith(
       `${configInstance.services.main.host}:${configInstance.services.main.port}/events`,
-      {
-        eventName: "fakeEventName",
-      }
+      dataToSend
     );
   });
 });

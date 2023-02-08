@@ -48,7 +48,7 @@ export enum ServicesName {
 
 export interface HttpClient {
   sendEvent: (
-    eventName: string,
-    serviceName: ServicesName
+    serviceName: ServicesName,
+    data: any
   ) => Promise<SendEventResult | null>;
 }
