@@ -34,6 +34,30 @@ const index = (fastifyInstance: FastifyInstance, handlers: Handlers) => {
       },
     };
 
+    const eventsSchema: FastifySchema = {
+      //   params: getAdvertiserParamsProp,
+      body: {
+        type: "object",
+        properties: {
+          eventName: { type: "string" },
+          data: {
+            type: "object",
+            additionalProperties: {
+              anyOf: [{ type: "string" }, { type: "number" }],
+            },
+          },
+        },
+      },
+      response: {
+        201: {
+          type: "object",
+          properties: {
+            status: { type: "string" },
+          },
+        },
+      },
+    };
+
     const readScanHandler = handlers.readScanHandler(fastifyInstance);
     const requestScanHandler = handlers.requestScanHandler(fastifyInstance);
     const healthCheckHandler = handlers.healthCheckHandler(fastifyInstance);
@@ -52,6 +76,14 @@ const index = (fastifyInstance: FastifyInstance, handlers: Handlers) => {
       "/scan",
       {
         schema: requestScanSchema,
+      },
+      requestScanHandler
+    );
+
+    fastifyInstance.post(
+      "/events",
+      {
+        schema: eventsSchema,
       },
       requestScanHandler
     );

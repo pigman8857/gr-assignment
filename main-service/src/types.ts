@@ -30,6 +30,7 @@ export interface Handlers {
   healthCheckHandler: HandlerCallback;
   readScanHandler: HandlerCallback;
   requestScanHandler: HandlerCallback;
+  eventsHandler: HandlerCallback;
 }
 
 export interface SendEventResult {

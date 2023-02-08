@@ -7,6 +7,7 @@ describe("Test handlers", () => {
     readScanHandler,
     healthCheckHandler,
     requestScanHandler,
+    eventsHandler,
   } = handlers();
 
   describe("Test readScanHandler", () => {
@@ -65,8 +66,7 @@ describe("Test handlers", () => {
     };
 
     //@ts-ignore
-    const req: FastifyRequest = {
-    };
+    const req: FastifyRequest = {};
     //@ts-ignore
     const res: FastifyReply = {
       status: fn(),
@@ -76,6 +76,29 @@ describe("Test handlers", () => {
       await expect(
         requestScanHandler(instance)(req, res)
       ).resolves.toBeUndefined();
+    });
+  });
+
+  describe("Test eventsHandler", () => {
+    //@ts-ignore
+    const instance: FastifyInstance = {};
+    //@ts-ignore
+    const req: FastifyRequest = {
+      body: {
+        eventName: 'fakeEvent',
+        data: {
+          id: 1,
+          someKey: 'someData'
+        }
+      }
+    };
+    //@ts-ignore
+    const res: FastifyReply = {
+      status: fn(),
+      send: fn(),
+    };
+    it("test if successfully call", async () => {
+      await expect(eventsHandler(instance)(req, res)).resolves.toBeUndefined();
     });
   });
 });

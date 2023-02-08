@@ -45,10 +45,33 @@ const requestScanHandler = (fastify: FastifyInstance) => {
   };
 };
 
+const eventsHandler= (fastify: FastifyInstance) => {
+  return async (request: FastifyRequest, reply: FastifyReply) => {
+    console.log("eventsHandler.");
+
+    //const { httpClient } = fastify;
+
+    const { body } = request;
+    console.log('body >',body);
+    try {
+      //const result = await httpClient.sendEvent('scanRequested')
+      //console.log("httpClient.sendEvent() result", result);
+      reply.status(200);
+      reply.send({ status: "event received" });
+    } catch (error) {
+      console.log("error >", error);
+      reply.status(500);
+      reply.send(error);
+    }
+    return;
+  };
+};
+
 export default function handlers(): Handlers {
   return {
     healthCheckHandler,
     readScanHandler,
     requestScanHandler,
+    eventsHandler
   };
 }
