@@ -7,7 +7,14 @@ describe("Test handlers", () => {
 
   describe("Test postEventHandler", () => {
     //@ts-ignore
-    const instance: FastifyInstance = {};
+    const instance: FastifyInstance = {
+      httpClient: {
+        //@ts-ignore
+        sendEvent: fn(() =>
+          Promise.resolve({ status: 201, data: { status: "OK" } })
+        ),
+      },
+    };
 
     //@ts-ignore
     const req: FastifyRequest = {

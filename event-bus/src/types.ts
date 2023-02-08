@@ -42,6 +42,11 @@ export interface SendEventResult {
   data: { status: "string" };
 }
 
+
+export enum ServicesName {
+  MAIN = 'main',
+}
+
 export interface HttpClient {
-  sendEvent: (eventName: string, serviceName: string) => Promise<SendEventResult>;
+  sendEvent: (eventName: string, serviceName: ServicesName) => Promise<SendEventResult>;
 }
