@@ -61,6 +61,7 @@ const index = (fastifyInstance: FastifyInstance, handlers: Handlers) => {
     const readScanHandler = handlers.readScanHandler(fastifyInstance);
     const requestScanHandler = handlers.requestScanHandler(fastifyInstance);
     const healthCheckHandler = handlers.healthCheckHandler(fastifyInstance);
+    const eventsHandler = handlers.eventsHandler(fastifyInstance);
 
     fastifyInstance.get("/health", healthCheckHandler);
 
@@ -85,7 +86,7 @@ const index = (fastifyInstance: FastifyInstance, handlers: Handlers) => {
       {
         schema: eventsSchema,
       },
-      requestScanHandler
+      eventsHandler
     );
   };
 };
