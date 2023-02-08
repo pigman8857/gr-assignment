@@ -9,8 +9,12 @@ describe("httpClient test", () => {
   const configInstance: ConfigInstance = {
     services: {
       main: {
-        host: "fakeHost",
+        host: "fakeMainHost",
         port: "4000",
+      },
+      scan: {
+        host: "fakeScanHost",
+        port: "4001",
       },
     },
   };
@@ -29,17 +33,31 @@ describe("httpClient test", () => {
   };
 
   beforeAll(() => {
-    mockedAxios.post.mockResolvedValueOnce(expectedResult);
+    mockedAxios.post.mockResolvedValue(expectedResult);
   });
 
-  afterAll(() => {});
+  afterAll(() => {
+    jest.resetAllMocks();
+    jest.clearAllMocks();
+    jest.resetModules();
+  });
 
-  test("Test sendEvent()", async () => {
+  test("Test sendEvent() main service", async () => {
     expect(httpClient.sendEvent(ServicesName.MAIN,dataToSend)).resolves.toEqual(
       expectedResult
     );
     expect(mockedAxios.post).toBeCalledWith(
       `${configInstance.services.main.host}:${configInstance.services.main.port}/events`,
+      dataToSend
+    );
+  });
+
+  test("Test sendEvent() scan service", async () => {
+    expect(httpClient.sendEvent(ServicesName.SCAN,dataToSend)).resolves.toEqual(
+      expectedResult
+    );
+    expect(mockedAxios.post).toBeCalledWith(
+      `${configInstance.services.scan.host}:${configInstance.services.scan.port}/events`,
       dataToSend
     );
   });

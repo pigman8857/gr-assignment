@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply, FastifyInstance } from "fastify";
 import handlers from "../handlers";
-const { fn } = jest;
+const { fn, spyOn } = jest;
 
 describe("Test handlers", () => {
   const { postEventHandler, healthCheckHandler } = handlers();
@@ -9,17 +9,14 @@ describe("Test handlers", () => {
     //@ts-ignore
     const instance: FastifyInstance = {
       httpClient: {
-        //@ts-ignore
-        sendEvent: fn(() =>
-          Promise.resolve({ status: 201, data: { status: "OK" } })
-        ),
+        sendEvent: fn(),
       },
     };
 
     //@ts-ignore
     const req: FastifyRequest = {
       body: {
-        evdntName: "scanRequested",
+        eventName: "scanRequested",
       },
     };
     //@ts-ignore
@@ -27,6 +24,21 @@ describe("Test handlers", () => {
       status: fn(),
       send: fn(),
     };
+
+    beforeAll(() => {
+      spyOn(instance.httpClient, "sendEvent")
+        .mockResolvedValueOnce({
+          status: 201,
+          //@ts-ignore
+          data: { status: "OK_MAIN" },
+        })
+        .mockResolvedValueOnce({
+          status: 201,
+          //@ts-ignore
+          data: { status: "OK_SCAN" },
+        });
+    });
+
     it("test if successfully call", async () => {
       await expect(
         postEventHandler(instance)(req, res)

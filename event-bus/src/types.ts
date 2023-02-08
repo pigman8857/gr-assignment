@@ -16,6 +16,7 @@ export interface ConfigInstance {
   port: number;
   services: {
     main: ServicesHostPort;
+    scan: ServicesHostPort;
     [serviceName: string]: ServicesHostPort;
   };
 }
@@ -44,6 +45,7 @@ export interface SendEventResult {
 
 export enum ServicesName {
   MAIN = "main",
+  SCAN = "scan"
 }
 
 export interface HttpClient {

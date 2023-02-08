@@ -17,8 +17,10 @@ const postEventHandler = (fastify: FastifyInstance) => {
     const { data, eventName } = request.body as { eventName: string, data: any };
     const { httpClient } = fastify;
     try {
-      const result = await httpClient.sendEvent(ServicesName.MAIN,{ data , eventName});
-      console.log('result >',result);
+      const mainServiceResult = await httpClient.sendEvent(ServicesName.MAIN,{ data , eventName});
+      const scanServiceResult = await httpClient.sendEvent(ServicesName.SCAN,{ data , eventName});
+      console.log('mainServiceResult >',mainServiceResult);
+      console.log('scanServiceResult >',scanServiceResult);
       reply.status(201);
       reply.send({ status: "event created" });
     } catch (error) {
