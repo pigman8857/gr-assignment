@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply, FastifyInstance } from "fastify";
-import { Handlers } from "../types";
+import { Handlers, ConcernEvents } from "../types";
 
 const healthCheckHandler = (fastify: FastifyInstance) => {
   return async (request: FastifyRequest, reply: FastifyReply) => {
@@ -29,9 +29,15 @@ const readScanHandler = (fastify: FastifyInstance) => {
 const eventsHandler= (fastify: FastifyInstance) => {
   return async (request: FastifyRequest, reply: FastifyReply) => {
     console.log("eventsHandler.");
-    const { body } = request;
-    console.log('body >',body);
+    console.log('request.body >',request.body);
+    const { data, eventName } = request.body as { eventName: ConcernEvents , data: any};
+    
     try {
+
+      if(eventName === 'scanRequested'){
+        console.log('Do scanning');
+      }
+
       reply.status(200);
       reply.send({ status: "event received" });
     } catch (error) {
