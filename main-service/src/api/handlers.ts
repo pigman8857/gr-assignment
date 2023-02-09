@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply, FastifyInstance } from "fastify";
-import { Handlers } from "../types";
+import { Handlers, SendableEvents} from "../types";
 import { AxiosError } from 'axios'
 
 const healthCheckHandler = (fastify: FastifyInstance) => {
