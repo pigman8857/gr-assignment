@@ -43,23 +43,54 @@ services:
       - 4001:4001
     networks:
       - scanner-net 
-  # advertiser-service-poc-db:
-  #   container_name: advertiser-service-poc-db
-  #   image: postgres:12.4
-  #   restart: always
-  #   networks:
-  #     - test-ads-microservices 
-  #   environment: 
-  #     POSTGRES_PASSWORD: 12345676
-  #     POSTGRES_USER: ads_api_user
-  #     POSTGRES_DB: advertisers_api
-  #   ports:
-  #     - 5450:5432
-  #   volumes:
-  #     - mydbdata:/var/lib/postgresql/data
+   
+  scan-main-service-db:
+    container_name: scan-main-service-db
+    image: postgres:12.4
+    restart: always
+    networks:
+      - scanner-net
+    environment: 
+      POSTGRES_PASSWORD: LugLSdU6kaHEHp7m
+      POSTGRES_USER: scan_api_user
+      POSTGRES_DB: scan_api
+    ports:
+      - 5450:5432
+    volumes:
+      - scan-main-service-db-data:/var/lib/postgresql/data
+  event-bus-service-db:
+    container_name: event-bus-service-db
+    image: postgres:12.4
+    restart: always
+    networks:
+      - scanner-net
+    environment: 
+      POSTGRES_PASSWORD: KZajde4FhVM6T7ZG
+      POSTGRES_USER: scan_api_user
+      POSTGRES_DB: scan_api
+    ports:
+      - 5460:5432
+    volumes:
+      - event-bus-service-db-data:/var/lib/postgresql/data
+  scan-service-db:
+    container_name: scan-service-db
+    image: postgres:12.4
+    restart: always
+    networks:
+      - scanner-net
+    environment: 
+      POSTGRES_PASSWORD: H38RHQWR8ZKx6uua
+      POSTGRES_USER: scan_api_user
+      POSTGRES_DB: scan_api
+    ports:
+      - 5460:5432
+    volumes:
+      - scan-service-db-data:/var/lib/postgresql/data
     
 volumes:
-  # mydbdata:
+  scan-service-db-data:
+  event-bus-service-db-data:
+  scan-main-service-db-data:
   scan-main-service-node-modules:
   event-bus-scan-service-node-modules:
   scan-service-node-modules:
