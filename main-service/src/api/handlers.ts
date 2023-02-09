@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply, FastifyInstance } from "fastify";
-import { Handlers, SendableEvents} from "../types";
+import { Handlers, ConcernEvents} from "../types";
 import { AxiosError } from 'axios'
 
 const healthCheckHandler = (fastify: FastifyInstance) => {
@@ -13,7 +13,7 @@ const healthCheckHandler = (fastify: FastifyInstance) => {
 
 const readScanHandler = (fastify: FastifyInstance) => {
   return async (request: FastifyRequest, reply: FastifyReply) => {
-    console.log("readScanHandler.");
+    console.log(">>>>>readScanHandler()");
 
     try {
       reply.status(200);
@@ -29,7 +29,7 @@ const readScanHandler = (fastify: FastifyInstance) => {
 
 const requestScanHandler = (fastify: FastifyInstance) => {
   return async (request: FastifyRequest, reply: FastifyReply) => {
-    console.log("requestScanHandler.");
+    console.log(">>>>>>>>>>>requestScanHandler()");
 
     const { httpClient } = fastify;
     try {
@@ -53,10 +53,16 @@ const requestScanHandler = (fastify: FastifyInstance) => {
 
 const eventsHandler= (fastify: FastifyInstance) => {
   return async (request: FastifyRequest, reply: FastifyReply) => {
-    console.log("eventsHandler.");
-    const { body } = request;
-    console.log('body >',body);
+    console.log(">>>>>>>>>eventsHandler()");
+    console.log('request.body >',request.body);
+    const { data, eventName } = request.body as { eventName: ConcernEvents , data: any};
+    
     try {
+
+      if(eventName === 'scanCompleted'){
+        console.log('scan is completed with data',data);
+      }
+
       reply.status(200);
       reply.send({ status: "event received" });
     } catch (error) {
