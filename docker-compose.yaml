@@ -84,6 +84,8 @@ services:
       POSTGRES_DB: scan_api
     ports:
       - 5452:5432
+    expose: 
+      - 5452
     volumes:
       - scan-service-db-data:/var/lib/postgresql/data
     

@@ -1,8 +1,8 @@
 import { knex, Knex } from "knex";
 import { ConfigInstance } from './types';
  
-const databaseAccess = (config : ConfigInstance): Knex | null => {
-  try {
+const createDatabaseAccess = (config : ConfigInstance): Knex => {
+    console.log('createDatabaseAccess()');
     const knexInstance: Knex = knex({
       client: "pg",
       connection: {
@@ -15,12 +15,8 @@ const databaseAccess = (config : ConfigInstance): Knex | null => {
       searchPath: [config.db.dbName, 'public'],
     });
     return knexInstance;
-  } catch (error) {
-    if(error instanceof Error)
-      console.error("error >", error.message);
-    return null;
-  }
+ 
 };
 
 
-export default databaseAccess;
+export default createDatabaseAccess;

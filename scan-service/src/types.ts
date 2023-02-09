@@ -8,8 +8,8 @@ declare module "fastify" {
 }
 
 export interface DbModel {
-  getData: (knex: Knex) => Promise<any>;
-  createData: (knex: Knex) => Promise<any>;
+  getData: () => Promise<any>;
+  createData: () => Promise<any>;
 }
 export interface DbRepos {
   findings: DbModel;
