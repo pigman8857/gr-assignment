@@ -69,7 +69,7 @@ services:
       POSTGRES_USER: scan_api_user
       POSTGRES_DB: scan_api
     ports:
-      - 5460:5432
+      - 5451:5432
     volumes:
       - event-bus-service-db-data:/var/lib/postgresql/data
   scan-service-db:
@@ -83,7 +83,7 @@ services:
       POSTGRES_USER: scan_api_user
       POSTGRES_DB: scan_api
     ports:
-      - 5460:5432
+      - 5452:5432
     volumes:
       - scan-service-db-data:/var/lib/postgresql/data
     
