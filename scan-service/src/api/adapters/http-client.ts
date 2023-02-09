@@ -1,11 +1,11 @@
 import axios from "axios";
-import { SendEventResult, HttpClient, ConfigInstance } from "../../types";
+import { SendEventResult, HttpClient, ConfigInstance, SendableEvents } from "../../types";
 
 const getHttpClient = (configInstance: ConfigInstance): HttpClient => {
   console.log('getHttpClient()');
   console.log('configInstance > ',configInstance);
   return {
-    sendEvent: async (eventName: string, data: any): Promise<SendEventResult> => {
+    sendEvent: async (eventName: SendableEvents, data: any): Promise<SendEventResult> => {
     
       const result = await axios.post(
         `${configInstance.eventBusServiceHost}:${configInstance.eventBusServicePort}/events`,

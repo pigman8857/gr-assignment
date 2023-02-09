@@ -3,10 +3,7 @@ import handlers from "../handlers";
 const { fn } = jest;
 
 describe("Test handlers", () => {
-  const {
-    healthCheckHandler,
-    eventsHandler,
-  } = handlers();
+  const { healthCheckHandler, eventsHandler } = handlers();
 
   describe("Test healthCheckHandler", () => {
     //@ts-ignore
@@ -32,16 +29,24 @@ describe("Test handlers", () => {
 
   describe("Test eventsHandler", () => {
     //@ts-ignore
-    const instance: FastifyInstance = {};
+    const instance: FastifyInstance = {
+      httpClient: {
+        //@ts-ignore
+        sendEvent: fn(() =>
+          Promise.resolve({ status: 201, data: { status: "OK" } })
+        ),
+      },
+    };
+
     //@ts-ignore
     const req: FastifyRequest = {
       body: {
-        eventName: 'fakeEvent',
+        eventName: "fakeEvent",
         data: {
           id: 1,
-          someKey: 'someData'
-        }
-      }
+          someKey: "someData",
+        },
+      },
     };
     //@ts-ignore
     const res: FastifyReply = {
