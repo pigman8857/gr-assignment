@@ -1,10 +1,26 @@
 import { FastifyRequest, FastifyReply, FastifyInstance } from "fastify";
-//import { knex, Knex } from "knex";
+import { Knex } from "knex";
 declare module "fastify" {
   interface FastifyInstance {
-    //db: Knex;
+    db: DbRepos;
     httpClient: HttpClient;
   }
+}
+
+export interface DbModel {
+  getData: (knex: Knex) => Promise<any>;
+  createData: (knex: Knex) => Promise<any>;
+}
+export interface DbRepos {
+  findings: DbModel;
+}
+
+export interface DBInstanceSettings {
+  host: string;
+  port: number;
+  username: string;
+  password: string;
+  dbName: string;
 }
 
 export interface ConfigInstance {
@@ -12,6 +28,7 @@ export interface ConfigInstance {
   port: number;
   eventBusServiceHost: string;
   eventBusServicePort: string;
+  db: DBInstanceSettings;
 }
 
 export interface Properties {
@@ -40,7 +57,6 @@ export interface HttpClient {
   sendEvent: (eventName: SendableEvents, data: any) => Promise<SendEventResult>;
 }
 
+export type SendableEvents = "scanCompleted";
 
-export type SendableEvents = 'scanCompleted';
-
-export type ConcernEvents = 'scanRequested';
+export type ConcernEvents = "scanRequested";
