@@ -39,3 +39,8 @@ export interface SendEventResult {
 export interface HttpClient {
   sendEvent: (eventName: string, data: any) => Promise<SendEventResult>;
 }
+
+
+export type SendableEvents = 'scanCompleted';
+
+export type ConcernEvents = 'scanRequested';

@@ -44,4 +44,4 @@ export interface HttpClient {
 
 export type SendableEvents = 'scanRequested';
 
-export type ConcernEvents = '';
+export type ConcernEvents = 'scanCompleted';
