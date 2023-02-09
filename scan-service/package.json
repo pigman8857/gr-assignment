@@ -6,7 +6,13 @@
   "scripts": {
     "test": "NODE_ENV=unittest jest --colors --detectOpenHandles",
     "start-dev": "ts-node src/server.ts",
-    "image-build": "docker build -t scan-service:latest ."
+    "image-build": "docker build -t scan-service:latest .",
+    "migrate:make": "knex migrate:make migration_name -x ts",
+    "migrate:latest": "NODE_ENV=local DB_HOST=localhost DB_PORT=5452 knex migrate:latest",
+    "migrate:up": "NODE_ENV=local DB_HOST=localhost DB_PORT=5452 knex migrate:up",
+    "migrate:down": "NODE_ENV=local DB_HOST=localhost DB_PORT=5452 knex migrate:down",
+    "seed:make": "NODE_ENV=local DB_HOST=localhost DB_PORT=5452 knex seed:make",
+    "seed:run": "NODE_ENV=local DB_HOST=localhost DB_PORT=5452 knex seed:run"
   },
   "keywords": [],
   "author": "",
