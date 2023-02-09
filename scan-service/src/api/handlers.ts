@@ -35,7 +35,9 @@ const eventsHandler= (fastify: FastifyInstance) => {
       reply.status(200);
       reply.send({ status: "event received" });
     } catch (error) {
-      console.log("error >", error);
+      if(error instanceof Error){
+        console.log("error >", error.message);
+      }
       reply.status(500);
       reply.send(error);
     }

@@ -3,9 +3,9 @@ import handlers from "../handlers";
 const { fn, spyOn } = jest;
 
 describe("Test handlers", () => {
-  const { postEventHandler, healthCheckHandler } = handlers();
+  const { eventsHandler, healthCheckHandler } = handlers();
 
-  describe("Test postEventHandler", () => {
+  describe("Test eventsHandler", () => {
     //@ts-ignore
     const instance: FastifyInstance = {
       httpClient: {
@@ -41,7 +41,7 @@ describe("Test handlers", () => {
 
     it("test if successfully call", async () => {
       await expect(
-        postEventHandler(instance)(req, res)
+        eventsHandler(instance)(req, res)
       ).resolves.toBeUndefined();
     });
   });

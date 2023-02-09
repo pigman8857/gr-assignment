@@ -29,6 +29,20 @@ services:
       - 4010:4010
     networks:
       - scanner-net 
+  scan-service:
+    container_name: scan-service
+    image: scan-service:latest
+    build:
+      context: ./scan-service
+      dockerfile: dockerfile
+    command: npm run start-dev
+    volumes:
+      - ./scan-service/src:/app/src
+      - scan-service-node-modules:/app/node_modules
+    ports:
+      - 4001:4001
+    networks:
+      - scanner-net 
   # advertiser-service-poc-db:
   #   container_name: advertiser-service-poc-db
   #   image: postgres:12.4
@@ -48,6 +62,7 @@ volumes:
   # mydbdata:
   scan-main-service-node-modules:
   event-bus-scan-service-node-modules:
+  scan-service-node-modules:
 
 networks:
   scanner-net: 

@@ -1,5 +1,6 @@
 import { FastifyRequest, FastifyReply, FastifyInstance } from "fastify";
 import { Handlers } from "../types";
+import { AxiosError } from 'axios'
 
 const healthCheckHandler = (fastify: FastifyInstance) => {
   return async (request: FastifyRequest, reply: FastifyReply) => {
@@ -32,12 +33,17 @@ const requestScanHandler = (fastify: FastifyInstance) => {
 
     const { httpClient } = fastify;
     try {
-      const result = await httpClient.sendEvent('scanRequested')
+      const result = await httpClient.sendEvent('scanRequested', { key: "someDataFromMainService"})
       console.log("httpClient.sendEvent() result", result);
       reply.status(201);
       reply.send({ status: "scan created" });
     } catch (error) {
-      console.log("error >", error);
+      if(error instanceof AxiosError){
+        console.error("error.code >", error.code);
+        console.error("error.config >", { url : error.config?.url, data: error.config?.data, method: error.config?.method});
+        console.error("error.response >", { status: error.response?.status, statusText: error.response?.statusText, data: error.response?.data });
+   
+      }
       reply.status(500);
       reply.send(error);
     }
@@ -54,7 +60,9 @@ const eventsHandler= (fastify: FastifyInstance) => {
       reply.status(200);
       reply.send({ status: "event received" });
     } catch (error) {
-      console.log("error >", error);
+      if(error instanceof Error){
+        console.log("error >", error.message);
+      }
       reply.status(500);
       reply.send(error);
     }

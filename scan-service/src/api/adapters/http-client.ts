@@ -5,12 +5,13 @@ const getHttpClient = (configInstance: ConfigInstance): HttpClient => {
   console.log('getHttpClient()');
   console.log('configInstance > ',configInstance);
   return {
-    sendEvent: async (eventName: string): Promise<SendEventResult> => {
+    sendEvent: async (eventName: string, data: any): Promise<SendEventResult> => {
     
       const result = await axios.post(
         `${configInstance.eventBusServiceHost}:${configInstance.eventBusServicePort}/events`,
         {
           eventName,
+          data
         }
       );
       return {

@@ -39,5 +39,5 @@ export interface SendEventResult {
 }
 
 export interface HttpClient {
-  sendEvent: (eventName: string) => Promise<SendEventResult>;
+  sendEvent: (eventName: string, data: any) => Promise<SendEventResult>;
 }

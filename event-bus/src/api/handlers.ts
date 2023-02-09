@@ -1,5 +1,6 @@
 import { FastifyRequest, FastifyReply, FastifyInstance } from "fastify";
-import { Handlers, ServicesName} from "../types";
+import { Handlers, ServicesName } from "../types";
+import { AxiosError } from "axios";
 
 const healthCheckHandler = (fastify: FastifyInstance) => {
   return async (request: FastifyRequest, reply: FastifyReply) => {
@@ -10,21 +11,39 @@ const healthCheckHandler = (fastify: FastifyInstance) => {
   };
 };
 
-const postEventHandler = (fastify: FastifyInstance) => {
+const eventsHandler = (fastify: FastifyInstance) => {
   return async (request: FastifyRequest, reply: FastifyReply) => {
-    console.log("postEventHandler.");
+    console.log("eventsHandler.");
     console.log("body>", request.body);
-    const { data, eventName } = request.body as { eventName: string, data: any };
+    const { eventName, data } = request.body as { eventName: string, data: any };
     const { httpClient } = fastify;
     try {
-      const mainServiceResult = await httpClient.sendEvent(ServicesName.MAIN,{ data , eventName});
-      const scanServiceResult = await httpClient.sendEvent(ServicesName.SCAN,{ data , eventName});
-      console.log('mainServiceResult >',mainServiceResult);
-      console.log('scanServiceResult >',scanServiceResult);
+      const mainServiceResult = await httpClient.sendEvent('main', {
+        eventName,
+        data,
+      });
+      const scanServiceResult = await httpClient.sendEvent('scan', {
+        eventName,
+        data,
+      });
+      console.log("mainServiceResult >", mainServiceResult);
+      console.log("scanServiceResult >", scanServiceResult);
       reply.status(201);
       reply.send({ status: "event created" });
     } catch (error) {
-      console.log("error >", error);
+      if (error instanceof AxiosError) {
+        console.error("error.code >", error.code);
+        console.error("error.config >", {
+          url: error.config?.url,
+          data: error.config?.data,
+          method: error.config?.method,
+        });
+        console.error("error.response >", {
+          status: error.response?.status,
+          statusText: error.response?.statusText,
+          data: error.response?.data,
+        });
+      }
       reply.status(500);
       reply.send(error);
     }
@@ -35,6 +54,6 @@ const postEventHandler = (fastify: FastifyInstance) => {
 export default function handlers(): Handlers {
   return {
     healthCheckHandler,
-    postEventHandler,
+    eventsHandler,
   };
 }

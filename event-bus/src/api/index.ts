@@ -4,14 +4,20 @@ import { SchemaProps, Handlers } from "../types";
 const index = (fastifyInstance: FastifyInstance, handlers: Handlers) => {
   return () => {
 
-    const postEventSchema: FastifySchema = {
+    const eventSchema: FastifySchema = {
     //   params: getAdvertiserParamsProp,
       body: {
         type: "object",
         properties: {
           eventName: {
             type : 'string',
-          }
+          },
+          data: {
+            type: "object",
+            additionalProperties: {
+              anyOf: [{ type: "string" }, { type: "number" }],
+            },
+          },
         },
       },
       response: {
@@ -26,7 +32,7 @@ const index = (fastifyInstance: FastifyInstance, handlers: Handlers) => {
       }
     };
 
-    const postEventHandler = handlers.postEventHandler(fastifyInstance);
+    const eventsHandler = handlers.eventsHandler(fastifyInstance);
     const healthCheckHandler = handlers.healthCheckHandler(fastifyInstance);
 
     fastifyInstance.get("/health", healthCheckHandler);
@@ -34,9 +40,9 @@ const index = (fastifyInstance: FastifyInstance, handlers: Handlers) => {
     fastifyInstance.post(
       "/events",
       {
-        schema: postEventSchema,
+        schema: eventSchema,
       },
-      postEventHandler
+      eventsHandler
     );
   };
 };

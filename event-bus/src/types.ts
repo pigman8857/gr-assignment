@@ -35,7 +35,7 @@ type HandlerCallback = (
 
 export interface Handlers {
   healthCheckHandler: HandlerCallback;
-  postEventHandler: HandlerCallback;
+  eventsHandler: HandlerCallback;
 }
 
 export interface SendEventResult {
@@ -43,10 +43,7 @@ export interface SendEventResult {
   data: { status: "string" };
 }
 
-export enum ServicesName {
-  MAIN = "main",
-  SCAN = "scan"
-}
+export type ServicesName = 'main' | 'scan';
 
 export interface HttpClient {
   sendEvent: (

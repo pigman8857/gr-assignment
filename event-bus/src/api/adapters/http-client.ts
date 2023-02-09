@@ -12,6 +12,10 @@ const getHttpClient = (configInstance: ConfigInstance): HttpClient => {
       serviceName: ServicesName,
       data: any
     ): Promise<SendEventResult | null> => {
+      console.log('>>>>>sendEvent()<<<<<<<');
+      console.log('serviceName >',serviceName);
+      console.log('configInstance.services >',configInstance.services);
+      console.log('sendEvent at >',configInstance.services[serviceName].host,configInstance.services[serviceName].port);
       const result = await axios.post(
         `${configInstance.services[serviceName].host}:${configInstance.services[serviceName].port}/events`,
         data
