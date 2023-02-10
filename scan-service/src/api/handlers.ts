@@ -1,27 +1,12 @@
 import { FastifyRequest, FastifyReply, FastifyInstance } from "fastify";
-import { Handlers, ConcernEvents } from "../types";
+import { Handlers, ConcernEvents, scanRequestingData, ScanStatues } from "../types";
+import crypto from 'crypto';
 
 const healthCheckHandler = (fastify: FastifyInstance) => {
   return async (request: FastifyRequest, reply: FastifyReply) => {
     console.log("healthCheckHandler");
     reply.status(200);
     reply.send("Good\n");
-    return;
-  };
-};
-
-const readScanHandler = (fastify: FastifyInstance) => {
-  return async (request: FastifyRequest, reply: FastifyReply) => {
-    console.log("readScanHandler.");
-
-    try {
-      reply.status(200);
-      reply.send({ status: "event created" });
-    } catch (error) {
-      console.log("error >", error);
-      reply.status(500);
-      reply.send(error);
-    }
     return;
   };
 };
@@ -49,6 +34,8 @@ const funnyWords = [
   "Oocephalus_Sialoquent"
 ];
 
+let unique_id = '';
+
 const eventsHandler= (fastify: FastifyInstance) => {
   return async (request: FastifyRequest, reply: FastifyReply) => {
     console.log("eventsHandler.");
@@ -61,17 +48,31 @@ const eventsHandler= (fastify: FastifyInstance) => {
     const { data, eventName } = request.body as { eventName: ConcernEvents , data: any};
     const { httpClient, db: { findings, scanEvent} } = fastify;
     
-    
-
     try {
         if(eventName === 'scanRequested'){
+          const { repository_name } = data as scanRequestingData;
+
           console.log('Do scanning');
           const randomNumber = Math.floor(Math.random() * funnyWords.length);
           const randomWord = funnyWords[randomNumber];
           console.log('randomNumber >',randomNumber);
           console.log('randomWord > ',randomWord);
-          //await scanEvent.createData({});
-          //await httpClient.sendEvent('scanCompleted', { data : 'Scanning is completed' })
+          
+          unique_id = crypto.randomUUID();
+
+          const insertData = {
+            repository_name,
+            unique_id,
+            scan_status : 'In Progress'
+          }
+
+          console.log('insertData >',insertData);
+          await scanEvent.createData(insertData);
+          //await httpClient.sendEvent('scanCompleted', { data : 'Scanning is completed' });
+
+          setTimeout(async() => {
+
+          },10000);
         }
     } catch (error) {
       console.log('error >',error);

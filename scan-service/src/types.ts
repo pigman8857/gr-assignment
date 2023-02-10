@@ -61,3 +61,9 @@ export interface HttpClient {
 export type SendableEvents = "scanCompleted";
 
 export type ConcernEvents = "scanRequested";
+
+export interface scanRequestingData {
+  repository_name : string;
+}
+
+export type ScanStatues =  "Queued" | "In Progress" | "Success" | "Failure";

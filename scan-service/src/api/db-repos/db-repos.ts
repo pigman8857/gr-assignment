@@ -7,23 +7,18 @@ const createRepo = (knex: Knex) : DbRepos => {
     return {
         findings: {
             createData : async (data: any) => {
-                console.log('createData()');
-                const result = await knex('finding').insert({ data },'id');
-                console.log('result',result);
+                return await knex('finding').insert({ data },'id');
             },
             getData: async () => {
                 return await knex.from("finding").select(['*']);
             },
         },
         scanEvent: {
-            createData : async (data: any) => {
-                console.log('createData()');
-                const result = await knex('scanEvent').insert({ data },'id');
-                console.log('result',result);
+            createData : async (data: any) => {       
+               return await knex.insert(data,['id']).into('scan_event');
             },
             getData: async () => {
-                await knex.raw("SELECT 1");
-                return await knex.from("scanEvent").select(['*']);
+                return await knex.from("scan_event").select(['*']);
             },
         },
     }
