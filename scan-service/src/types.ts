@@ -9,7 +9,7 @@ declare module "fastify" {
 
 export interface DbModel {
   getData: () => Promise<any>;
-  createData: () => Promise<any>;
+  createData: (data: any) => Promise<any>;
 }
 export interface DbRepos {
   findings: DbModel;

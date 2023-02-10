@@ -30,6 +30,10 @@ const eventsHandler= (fastify: FastifyInstance) => {
   return async (request: FastifyRequest, reply: FastifyReply) => {
     console.log("eventsHandler.");
     console.log('request.body >',request.body);
+    reply.status(200);
+    reply.send({ status: "event received" });
+    console.log('Continue after send status....');
+
     const { data, eventName } = request.body as { eventName: ConcernEvents , data: any};
     const { httpClient, db: { findings } } = fastify;
     
@@ -37,12 +41,11 @@ const eventsHandler= (fastify: FastifyInstance) => {
 
       if(eventName === 'scanRequested'){
         console.log('Do scanning');
-        await findings.createData();
+        await findings.createData(data);
         await httpClient.sendEvent('scanCompleted', { data : 'Scanning is completed' })
       }
 
-      reply.status(200);
-      reply.send({ status: "event received" });
+
     } catch (error) {
       console.log('error >',error);
       if(error instanceof Error){
