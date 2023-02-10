@@ -26,6 +26,29 @@ const readScanHandler = (fastify: FastifyInstance) => {
   };
 };
 
+const funnyWords = [
+  "Mollycoddle_Argle-bargle",
+  "Comeuppance_Formication",
+  "Slangwhanger_Skedaddle",
+  "Cockalorum_Batrachomyomachy",
+  "Namby-pamby_Widdershins",
+  "Absquatulate_Absquatulate",
+  "Snickersnee_Mollycoddle",
+  "Goombah_Gongoozle",
+  "Yahoo_Bowyang",
+  "Gobbledygook_Eructation",
+  "Rigmarole_Batrachomyomachy",
+  "Pandiculation_Mumpsimus",
+  "Panjandrum_Folderol",
+  "Dudgeon_Furphy",
+  "Rigmarole_Pandiculation",
+  "Fuddy-duddy_Flibbertigibbet",
+  "Anencephalous_Lickspittle",
+  "Flummox_Donnybrook",
+  "Kerfuffle_Furbelow",
+  "Oocephalus_Sialoquent"
+];
+
 const eventsHandler= (fastify: FastifyInstance) => {
   return async (request: FastifyRequest, reply: FastifyReply) => {
     console.log("eventsHandler.");
@@ -34,18 +57,22 @@ const eventsHandler= (fastify: FastifyInstance) => {
     reply.send({ status: "event received" });
     console.log('Continue after send status....');
 
+
     const { data, eventName } = request.body as { eventName: ConcernEvents , data: any};
-    const { httpClient, db: { findings } } = fastify;
+    const { httpClient, db: { findings, scanEvent} } = fastify;
     
+    
+
     try {
-
-      if(eventName === 'scanRequested'){
-        console.log('Do scanning');
-        await findings.createData(data);
-        await httpClient.sendEvent('scanCompleted', { data : 'Scanning is completed' })
-      }
-
-
+        if(eventName === 'scanRequested'){
+          console.log('Do scanning');
+          const randomNumber = Math.floor(Math.random() * funnyWords.length);
+          const randomWord = funnyWords[randomNumber];
+          console.log('randomNumber >',randomNumber);
+          console.log('randomWord > ',randomWord);
+          //await scanEvent.createData({});
+          //await httpClient.sendEvent('scanCompleted', { data : 'Scanning is completed' })
+        }
     } catch (error) {
       console.log('error >',error);
       if(error instanceof Error){

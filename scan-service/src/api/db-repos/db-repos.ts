@@ -8,14 +8,24 @@ const createRepo = (knex: Knex) : DbRepos => {
         findings: {
             createData : async (data: any) => {
                 console.log('createData()');
-                const result = await knex('finding').insert({ data }).select(['id']);
+                const result = await knex('finding').insert({ data },'id');
+                console.log('result',result);
+            },
+            getData: async () => {
+                return await knex.from("finding").select(['*']);
+            },
+        },
+        scanEvent: {
+            createData : async (data: any) => {
+                console.log('createData()');
+                const result = await knex('scanEvent').insert({ data },'id');
                 console.log('result',result);
             },
             getData: async () => {
                 await knex.raw("SELECT 1");
-                console.log('DB connected');
+                return await knex.from("scanEvent").select(['*']);
             },
-        }
+        },
     }
 }
 

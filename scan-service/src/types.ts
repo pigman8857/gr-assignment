@@ -13,6 +13,7 @@ export interface DbModel {
 }
 export interface DbRepos {
   findings: DbModel;
+  scanEvent: DbModel;
 }
 
 export interface DBInstanceSettings {
